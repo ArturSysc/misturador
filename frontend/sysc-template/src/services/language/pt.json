@@ -1,0 +1,88 @@
+{
+  "welcome": "Bem-vindo",
+  "actions" : "Ações",
+  "logout": "Sair",
+  "login": "Entrar",
+  "register": "Registrar",
+  "forgotPassword": "Esqueci a senha",
+  "language": "Idioma",
+  "profile": "Perfil",
+  "settings": "Configurações",
+  "submit": "Enviar",
+  "cancel": "Cancelar",
+  "loading": "Carregando...",
+  "error": "Ocorreu um erro. Por favor, tente novamente.",
+  "email": "Email",
+  "emailPlaceholder": "Digite seu email",
+  "password": "Senha",
+  "newPassword": "Nova Senha",
+  "updatePassword": "Atalizar senha",
+  "passwordPlaceholder": "Digite sua senha",
+  "passwordRecovery": "Recupere sua senha",
+  "loginButton": "Entrar",
+  "loggingIn": "Entrando...",
+  "sendToken": "Enviar token",
+  "validateToken": "Validar token",
+  "header": {
+    "projectTitle": "nome-do-projeto",
+    "dashboard": "Painel",
+    "login": "Entrar",
+    "register": "Registrar",
+    "graph": "Gráfico",
+    "modal": "Modal",
+    "itens" : "Gerenciar",
+    "logout": "Sair"
+  },
+  "footer": "Todos direitos reservados",
+  "barchart": {
+    "title": "Variação da temperatura nos últimos 10 dias",
+    "legend": "celsius"
+  },
+  "home": {
+    "welcomeMessage": "Bem-vindo à Página Principal",
+    "greeting": "Olá, {{name}}!",
+    "pleaseLogin": "Por favor, faça login."
+  },
+  "roles": {
+    "admin": "Administrador",
+    "user": "Usuário",
+    "guest": "Visitante"
+  },
+  "registerForm": {
+    "title": "Registrar",
+    "emailLabel": "Email:",
+    "emailPlaceholder": "Digite seu email",
+    "passwordLabel": "Senha:",
+    "passwordPlaceholder": "Digite sua senha",
+    "confirmPasswordLabel": "Confirmar Senha:",
+    "confirmPasswordPlaceholder": "Confirme sua senha",
+    "loading": "Registrando...",
+    "submit": "Registrar"
+  },
+  "tipo1Form": {
+    "name": "Nome",
+    "enterName": "Digite o nome do item",
+    "save": "Salvar",
+    "create": "Criar novo item",
+    "update": "Atualizar item",
+    "cancel": "Cancelar"
+  },
+  "tipo2Form": {
+    "name": "Nome",
+    "enterName": "Digite o nome do item",
+    "status": "Status",
+    "enterStatus": "Digite o status do item",
+    "save": "Salvar",
+    "create": "Criar novo item",
+    "update": "Atualizar item",
+    "cancel": "Cancelar"
+  },
+  "lineGraph" : {
+    "title" : "Dados ao longo do tempo",
+    "startDateLabel": "Data Inicial",
+    "endDateLabel": "Data Final",
+    "savePdfButton": "Salvar em PDF",
+    "loading": "Carregando...",
+    "error": "Erro:"
+  }
+}

@@ -1,0 +1,83 @@
+.sidebar-menu {
+    border-right: 1px solid black; /* Borda fina preta */
+    overflow-y: auto; /* Adiciona rolagem se o conteúdo exceder a altura */
+}
+
+.sidebar-menu .text-dark {
+    color: #000; /* Cor do texto */
+}
+
+/* Alinhamento e estilo dos ícones */
+.sidebar-menu .d-flex {
+    align-items: center;
+}
+
+/* Aumenta o padding entre os itens do menu */
+.sidebar-menu a {
+    padding: 10px 20px; /* Padding maior entre os itens (superior/inferior e lateral) */
+}
+
+/* Para garantir que não há bordas */
+.sidebar-menu,
+.sidebar-menu a {
+    border: none; /* Remove bordas de links */
+    box-shadow: none; /* Remove qualquer sombra */
+}
+
+.sidebar-button {
+    background-color: transparent;
+    border: none;
+    color: #333; /* Altere a cor do texto conforme necessário */
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar-button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Cor de fundo ao passar o mouse */
+}
+
+.sidebar-button:focus {
+    outline: none;
+}
+
+.sidebar-button span {
+    margin-left: 8px; /* Ajuste de espaço entre ícone e texto */
+}
+
+/* Fundo da sidebar com desfoque */
+.sidebar-menu {
+    background: rgba(255, 255, 255, 0.3); /* Fundo semitransparente */
+    backdrop-filter: blur(10px); /* Efeito de desfoque */
+    height: 100%;
+    width: 100%;
+}
+
+/* Estilo para os botões da sidebar */
+.sidebar-button {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Negrito para o item selecionado */
+.sidebar-button.selected {
+    font-weight: bold;
+    color: #000; /* Cor mais forte para o item selecionado */
+}
+
+/* Efeito de hover para todos os botões */
+.sidebar-button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Um leve fundo ao passar o mouse */
+    border-radius: 5px;
+}

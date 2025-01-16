@@ -1,0 +1,36 @@
+/* src/components/Header.css */
+
+.project-title {
+    color: var(--darkblue); /* Para o texto ficar visível sobre o fundo azul */
+    font-weight: 300; /* Opcional: aparência mais leve */
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: var(--darkblue); /* Cor do texto */
+    margin-left: 15px; /* Espaçamento entre os links */
+}
+
+.nav-link:hover {
+    text-decoration: underline; /* Efeito ao passar o mouse */
+}
+.navbar-toggler {
+    display: flex;
+    justify-content: center; /* Centraliza o ícone */
+    align-items: center; /* Garante que o ícone fique verticalmente centralizado */
+}
+.dropdown-button {
+    background: none;
+    border: none;
+    color: var(--primary); /* Cor desejada para o ícone */
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-button:hover {
+    color: var(--secondary); /* Mantém a cor ao passar o mouse */
+}
+
+.dropdown-button:focus {
+    outline: none;
+}

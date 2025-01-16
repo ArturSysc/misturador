@@ -1,0 +1,64 @@
+/* src/components/AlertBox.css */
+
+  .alert-box {
+    border: none; /* Remove a borda ao redor do alert box */
+    border-radius: 8px; /* Borda arredondada */
+    max-height: 200px; /* Altura máxima da AlertBox */
+    overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder a altura máxima */
+    scrollbar-width: thin; /* Para navegadores baseados em Firefox (controla a largura do scroll) */
+    scrollbar-color: var(--accent) #f1f1f1; /* Cor da barra de rolagem e do fundo */
+}
+/* Adiciona padding direito quando houver scroll */
+.alert-box:has(::-scrollbar) {
+    padding-right: 15px; /* Ajuste o valor conforme necessário */
+}
+
+/* Para navegadores WebKit (Chrome, Safari) */
+.alert-box::-webkit-scrollbar {
+    width: 8px; /* Largura da barra de rolagem */
+}
+
+.alert-box::-webkit-scrollbar-thumb {
+    background-color: var(--accent); /* Cor da barra de rolagem */
+    border-radius: 4px; /* Borda arredondada na barra de rolagem */
+}
+
+.alert-box::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Cor do fundo da barra de rolagem */
+}
+
+  .alert {
+    display: flex; /* Usar flexbox para alinhar itens */
+    align-items: center; /* Centraliza verticalmente */
+    padding: 10px; /* Espaçamento interno para cada alerta */
+    margin-bottom: 10px; /* Espaçamento entre alertas */
+    border-radius: 4px; /* Borda arredondada para cada alerta */
+  }
+  
+  .alert-timestamp {
+    font-size: 0.85rem; /* Tamanho da fonte do timestamp */
+    color: #888; /* Cor cinza para o timestamp */
+    margin-right: 10px; /* Espaçamento à direita */
+  }
+  
+  .alert-type {
+    font-weight: bold; /* Deixa o tipo de alerta em negrito */
+    margin-right: 5px; /* Espaçamento à direita */
+  }
+  
+  /* Estilos para diferentes tipos de alerta */
+  .alert-alerta {
+    background-color: #fff3e0; /* Cor de fundo para alerta */
+    border-left: 4px solid #e8d016; /* Borda esquerda azul */
+  }
+  
+  .alert-emergencia {
+    background-color: #ffebee; /* Cor de fundo para emergência */
+    border-left: 4px solid #f44336; /* Borda esquerda vermelha */
+  }
+  
+  .alert-inatividade {
+    background-color: #c9c7c4; /* Cor de fundo para inatividade */
+    border-left: 4px solid #0e0800; /* Borda esquerda laranja */
+  }
+  

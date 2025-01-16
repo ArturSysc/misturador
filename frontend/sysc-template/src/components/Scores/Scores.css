@@ -1,0 +1,43 @@
+/* src/components/Scores/Scores.css */
+.scores-container {
+  display: flex;
+  gap: 10px; /* Espaçamento entre os containers */
+  flex-wrap: wrap; /* Para que os containers quebrem a linha se necessário */
+}
+
+.score-item {
+  background-color: var(--backgroundWhite);
+  border: 1px solid var(--accent); /* Borda padrão */
+  border-radius: 5px;
+  padding: 10px;
+  flex: 1; /* Permite que os itens cresçam igualmente */
+  min-width: 150px; /* Largura mínima */
+  position: relative; /* Para posicionamento da tag de status */
+}
+
+.score-label {
+  font-weight: bold; /* Rótulo em negrito */
+}
+
+.score-value {
+  font-size: 1.5em; /* Tamanho maior para o valor */
+}
+
+.score-status {
+  position: absolute; /* Para posicionar a tag */
+  top: 5px;
+  right: 5px;
+  font-size: 1.2em; /* Aumentar o tamanho da seta */
+}
+
+.max-status {
+  color: red; /* Seta para máximo em vermelho */
+}
+
+.min-status {
+  color: blue; /* Seta para mínimo em azul */
+}
+
+.ok-status {
+  color: green; /* Check para ok em verde */
+}

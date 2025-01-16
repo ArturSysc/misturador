@@ -1,0 +1,13 @@
+# Ignorar node_modules no diretório frontend/sysc-template
+frontend/sysc-template/node_modules/
+
+# Ignorar __pycache__ no diretório backend/app
+backend/app/__pycache__/
+
+# Ignorar venv no diretório backend
+backend/venv/
+
+*/venv
+
+# Ignorar o node_modules
+frontend/sysc-template/node_modules/*

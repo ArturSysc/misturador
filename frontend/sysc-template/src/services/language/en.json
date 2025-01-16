@@ -1,0 +1,89 @@
+{
+  "welcome": "Welcome",
+  "actions": "Actions",
+  "logout": "Logout",
+  "login": "Login",
+  "register": "Register",
+  "forgotPassword": "Forgot Password",
+  "language": "Language",
+  "profile": "Profile",
+  "settings": "Settings",
+  "submit": "Submit",
+  "cancel": "Cancel",
+  "loading": "Loading...",
+  "error": "An error occurred. Please try again.",
+  "email": "Email",
+  "emailPlaceholder": "Enter your email",
+  "password": "Password",
+  "newPassword": "New Password",
+  "updatePassword": "Update Password",
+  "passwordPlaceholder": "Enter your password",
+  "passwordRecovery": "Recover your password",
+  "loginButton": "Login",
+  "loggingIn": "Logging in...",
+  "sendToken": "Send token",
+  "validateToken": "Validate token",
+  "header": {
+    "projectTitle": "project-name-sysc",
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "register": "Register",
+    "graph": "Graph",
+    "itens": "Manage",
+    "modal": "Modal",
+    "logout": "Logout"
+  },
+  "footer": "All rights reserved",
+  "barchart": {
+    "title": "Temperature variation over the last 10 days",
+    "legend": "celsius"
+  },
+
+  "home": {
+    "welcomeMessage": "Welcome to the Home Page",
+    "greeting": "Hello, {{name}}!",
+    "pleaseLogin": "Please log in."
+  },
+  "roles": {
+    "admin": "Administrator",
+    "user": "User",
+    "guest": "Guest"
+  },
+  "registerForm": {
+    "title": "Register",
+    "emailLabel": "Email:",
+    "emailPlaceholder": "Enter your email",
+    "passwordLabel": "Password:",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPasswordLabel": "Confirm Password:",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "loading": "Registering...",
+    "submit": "Register"
+  },
+  "tipo1Form": {
+    "name": "Name",
+    "enterName": "Enter item name",
+    "save": "Save",
+    "create": "Create new item",
+    "update": "Update item",
+    "cancel": "Cancel"
+  },
+  "tipo2Form": {
+    "name": "Name",
+    "enterName": "Enter item name",
+    "status": "Status",
+    "enterStatus": "Enter item status",
+    "save": "Save",
+    "create": "Create new item",
+    "update": "Update item",
+    "cancel": "Cancel"
+  },
+  "lineGraph": {
+    "title" : "Data along the time",
+    "startDateLabel": "Start Date",
+    "endDateLabel": "End Date",
+    "savePdfButton": "Save to PDF",
+    "loading": "Loading...",
+    "error": "Error:"
+  }
+}

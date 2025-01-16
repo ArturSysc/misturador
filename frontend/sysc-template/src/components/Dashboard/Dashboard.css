@@ -1,0 +1,51 @@
+/* src/components/Dashboard/Dashboard.css */
+
+.scores {
+  margin: 20px 0 20px 0; /* Margens: topo, direita, inferior, esquerda */
+}
+.charts {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+  margin: 20px 0 20px 0;
+}
+.chart {
+  background-color: var(--backgroundWhite);
+  max-width: 100%;
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  padding: 20px; /* Reduzido para melhorar responsividade */
+}
+
+/* Layout para telas médias */
+@media (max-width: 900px) {
+  .charts {
+    grid-template-columns: 1fr 1fr; /* Colunas iguais para telas menores */
+  }
+}
+
+/* Layout para telas pequenas */
+@media (max-width: 768px) {
+  .charts {
+    grid-template-columns: 1fr; /* Uma coluna apenas em telas bem pequenas */
+  }
+}
+.chart.full {
+  grid-column: span 2;
+  margin: 20px 0 20px 0;
+}
+.table {
+  border: 1px solid var(--accent);
+  background-color: var(--backgroundWhite);
+  border-radius: 5px;
+  margin: 20px 0 20px 0;
+}
+
+.alerts {
+  border: 1px solid var(--accent);
+  background-color: var(--backgroundWhite);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 20px 0 0 0;
+}
+

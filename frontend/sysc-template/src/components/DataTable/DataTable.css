@@ -1,0 +1,41 @@
+/* src/components/DataTable.css */
+.table-container {
+  overflow: hidden; /* Garante que as bordas arredondadas sejam respeitadas */
+  border-radius: 0.5rem; /* Arredonda as bordas da tabela */
+}
+.custom-table tbody, td, tfoot, th, thead, tr {
+  border: none; /* Remove bordas das células */
+}
+
+.custom-table {
+  width: 100%; /* Largura da tabela */
+  border-collapse: collapse; /* Remove espaços entre as células */
+  text-align: center; /* Centraliza todo o texto na tabela */
+}
+
+.custom-table th {
+  text-transform: uppercase; /* Transforma o texto em maiúsculas */
+  font-weight: bold; /* Deixa o texto em negrito */
+  color: var(--terciary); /* Cor do texto do cabeçalho */
+  padding: 0.75rem; /* Espaçamento interno para as células do cabeçalho */
+}
+
+.custom-table td {
+  padding: 0.75rem; /* Espaçamento interno para as células */
+  border-top: 1px solid #ddd; /* Linha acima das células */
+}
+
+/* Estilo específico para a primeira coluna */
+.custom-table td:first-child {
+  font-weight: bold; /* Deixa o texto da primeira coluna em negrito */
+  border-color: var(--terciary);
+  color: var(--terciary);
+}
+
+.custom-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Cor de fundo para linhas pares */
+}
+
+.custom-table tr:hover {
+  background-color: #f1f1f1; /* Cor de fundo ao passar o mouse sobre a linha */
+}
