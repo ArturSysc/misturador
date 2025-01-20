@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
  */
 const fetchConfigData = async () => {
   try {
-    const response = await fetch('http://localhost:8000/config');
+    const response = await fetch('http://localhost:73000/config');
     if (!response.ok) throw new Error('Erro ao buscar dados de configuração.');
     return await response.json();
   } catch (error) {
@@ -21,7 +21,7 @@ const fetchConfigData = async () => {
  */
 const fetchSensorData = async () => {
   try {
-    const response = await fetch('http://localhost:8000/sensores');
+    const response = await fetch('http://localhost:7000/sensores');
     if (!response.ok) throw new Error('Erro ao buscar dados dos sensores.');
     return await response.json();
   } catch (error) {
@@ -49,7 +49,6 @@ const processScores = (configData, sensorData) => {
         max: config.temperatura_maxima || '',
         ok: config.temperatura_desejada || '',
       },
-      
       valvula_vapor: {
         value: sensor.valvula_vapor_percentage,
         unit: '%',
@@ -94,39 +93,6 @@ const processAlerts = (sensorData) => {
     }));
 };
 
-const fetchChartData = async () => {
-    // Dados mockados para gráficos
-    return {
-      pie: [
-        { label: 'categoria A', value: 40 },
-        { label: 'categoria B', value: 30 },
-        { label: 'categoria C', value: 30 },
-      ],
-      bar: [
-        { label: 'dia 1', value: 50 },
-        { label: 'dia 2', value: 80 },
-        { label: 'dia 3', value: 80 },
-        { label: 'dia 4', value: 60 },
-        { label: 'dia 5', value: 60 },
-        { label: 'dia 6', value: 50 },
-        { label: 'dia 7', value: 60 },
-        { label: 'dia 8', value: 90 },
-        { label: 'dia 9', value: 30 },
-        { label: 'dia 10', value: 110 },
-      ],
-    };
-  
-    // Exemplo de chamada para API real
-    // try {
-    //   const response = await fetch('https://api.exemplo.com/dashboard/chartData');
-    //   const data = await response.json();
-    //   return data;
-    // } catch (error) {
-    //   console.error('Erro ao buscar os dados dos gráficos:', error);
-    //   throw error;
-    // }
-  };
-
 /**
  * Hook para gerenciar os dados do dashboard combinando duas APIs.
  * @returns {Object} Objeto contendo `data` (dados do dashboard) e `loading` (estado de carregamento).
@@ -145,11 +111,9 @@ const useDashboardData = () => {
         const scores = processScores(configData, sensorData);
         const tableData = processTableData(configData);
         const alerts = processAlerts(sensorData);
-        const chartData = await fetchChartData();
-
 
         // Atualiza o estado com os dados recebidos
-        setData({ scores, chartData, tableData, alerts });
+        setData({ scores, tableData, alerts });
       } catch (error) {
         console.error('Erro ao carregar os dados do dashboard:', error);
       } finally {

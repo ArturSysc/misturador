@@ -4,9 +4,10 @@ Um template front-end utilizando React e Bootstrap para gerenciamento de sistema
 
 ## Versão
 
-| Versão           | Data       | commit  | Descrição      |
-| ---------------- | ---------- | ------- | -------------- |
-| 0.1.0 :sparkles: | 2024-10-29 | 55e0bb4 | Initial commit |
+| Versão           | Data       | commit  | Descrição                       |
+| ---------------- | ---------- | ------- | ------------------------------- |
+| 0.2.0 :sparkles: | 2025-01-20 | xxxxxxx | Add backend logic and LineGraph |
+| 0.1.0 :sparkles: | 2024-01-16 | 669f4b1 | Initial commit                  |
 
 ## Estrutura do Projeto
 
@@ -35,6 +36,8 @@ O projeto possui a seguinte estrutura básica:
 ├── package.json                # Dependências do projeto
 └── README.md                  # Documentação do projeto
 ```
+
+/misturador
 
 ### Funcionalidades Implementadas
 

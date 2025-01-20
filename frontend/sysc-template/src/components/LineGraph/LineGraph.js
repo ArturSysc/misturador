@@ -1,132 +1,123 @@
-// src/components/LineGraph/LineGraph.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import useGraph from '../../hooks/useGraph';
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';  // Importando o useTranslations
-import moment from 'moment';  // Importando Moment.js
+import moment from 'moment';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
-// Registrando as escalas e elementos do gráfico
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-const LineGraph = () => {
+const LineGraph = ({ options }) => {
   const { data, loading, error } = useGraph();
+  const [selectedSensor, setSelectedSensor] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const { t } = useTranslation();  // Usando o useTranslations para obter as traduções
+  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
+  // Process data for chart
+  useEffect(() => {
+    if (data.length > 0 && selectedSensor) {
+      const filteredData = data.filter((item) => {
+        const date = new Date(item.timestamp);
+        return (
+          item.modbus_id === parseInt(selectedSensor) &&
+          (!startDate || date >= new Date(startDate)) &&
+          (!endDate || date <= new Date(endDate))
+        );
+      });
 
-  // Função para formatar os timestamps usando moment.js
-  const formatTimestamps = (timestamps) => {
-    return timestamps.map((timestamp) => moment(timestamp).format('DD/MM HH:mm'));
-  };
+      const timestamps = filteredData.map(item => item.timestamp);
+      const temperatures = filteredData.map(item => item.temperatura_celsius);
+      const formattedTimestamps = timestamps.map(t => moment(t).format('DD/MM HH:mm'));
 
-  if (loading) {
-    return <div>{t('lineGraph.loading')}</div>;
-  }
-
-  if (error) {
-    return <div>{t('lineGraph.error')}: {error}</div>;
-  }
-
-  // Obtém as datas mínima e máxima com base nos dados fornecidos
-  const minDate = data.timestamps[0];
-  const maxDate = data.timestamps[data.timestamps.length - 1];
-
-  // Filtrando os dados com base nas datas selecionadas
-  const filteredData = {
-    timestamps: [],
-    values: [],
-  };
-
-  data.timestamps.forEach((timestamp, index) => {
-    const date = new Date(timestamp);
-    if ((!startDate || date >= new Date(startDate)) && (!endDate || date <= new Date(endDate))) {
-      filteredData.timestamps.push(timestamp);
-      filteredData.values.push(data.values[index]);
+      setChartData({
+        labels: formattedTimestamps,
+        datasets: [{
+          label: 'Temperatura ao longo do tempo',
+          data: temperatures,
+          fill: false,
+          borderColor: 'rgba(75,192,192,1)',
+          tension: 0.1
+        }]
+      });
     }
-  });
+  }, [data, selectedSensor, startDate, endDate]);
 
-  // Formatando os timestamps antes de passar para o gráfico
-  const formattedTimestamps = formatTimestamps(filteredData.timestamps);
+  if (loading) return <div>Carregando...</div>;
+  if (error) return <div>Erro: {error}</div>;
 
-  const chartData = {
-    labels: formattedTimestamps,  // Usando os timestamps formatados
-    datasets: [
-      {
-        label: t('lineGraph.title'),
-        data: filteredData.values,
-        fill: false,
-        backgroundColor: 'rgba(245, 138, 61, 1)',
-        borderColor: 'rgba(249, 210, 157, 1)',
-        tension: 0.1,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    aspectRatio: 9 / 3,
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
-
-  const exportToPDF = async () => {
-    const formattedStartDate = new Date(startDate).toLocaleDateString('en-GB'); // Formato DD/MM/YYYY
-    const formattedEndDate = new Date(endDate).toLocaleDateString('en-GB'); // Formato DD/MM/YYYY
-    const canvas = await html2canvas(document.querySelector("#chart"));
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF();
-    pdf.addImage(imgData, "PNG", 10, 10, 180, 90);
-    pdf.save(`DATA-${formattedStartDate}-${formattedEndDate}.pdf`);
-  };
+  const sensorOptions = [...new Set(data.map(item => item.modbus_id))];
 
   return (
-    <Container className="mt-4">
-      <Row className="align-items-center mb-3">
+    <Container fluid className="line-graph-container">
+      <Row className="mb-3">
         <Col md={4}>
-          <Form.Group controlId="startDate">
-            <Form.Label>{t('lineGraph.startDateLabel')}</Form.Label>
+          <Form.Group>
+            <Form.Label>Selecionar Sensor</Form.Label>
+            <Form.Control
+              as="select"
+              value={selectedSensor}
+              onChange={(e) => setSelectedSensor(e.target.value)}
+            >
+              <option value="">Selecione um sensor</option>
+              {sensorOptions.map(sensor => (
+                <option key={sensor} value={sensor}>{sensor}</option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+        </Col>
+        <Col md={4}>
+          <Form.Group>
+            <Form.Label>Data de Início</Form.Label>
             <Form.Control
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              min={minDate}
-              max={maxDate}
             />
           </Form.Group>
         </Col>
         <Col md={4}>
-          <Form.Group controlId="endDate">
-            <Form.Label>{t('lineGraph.endDateLabel')}</Form.Label>
+          <Form.Group>
+            <Form.Label>Data de Fim</Form.Label>
             <Form.Control
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              min={startDate || minDate}
-              max={maxDate}
             />
           </Form.Group>
         </Col>
-        <Col md={4}>
-          <Form.Group className="text-end">
-            <Button variant="light" onClick={exportToPDF}>
-              {t('lineGraph.savePdfButton')}
-            </Button>
-          </Form.Group>
+      </Row>
+      <Row>
+        <Col>
+          <div className="chart-container">
+            <Line 
+              data={chartData} 
+              options={{
+                ...options,
+                maintainAspectRatio: false,
+                responsive: true
+              }} 
+            />
+          </div>
         </Col>
       </Row>
-
-      <div id="chart" className="border p-3" style={{ height: '60vh', width: '100%' }}>
-        <Line data={chartData} options={options} />
-      </div>
     </Container>
   );
 };

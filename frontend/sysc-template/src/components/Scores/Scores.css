@@ -1,33 +1,52 @@
 /* src/components/Scores/Scores.css */
 .scores-container {
   display: flex;
-  gap: 10px; /* Espaçamento entre os containers */
+  gap: 20px; /* Espaçamento entre os containers */
   flex-wrap: wrap; /* Para que os containers quebrem a linha se necessário */
+  justify-content: space-between; /* Garante que os itens ocupem toda a largura */
+  margin-top: 20px;
 }
 
 .score-item {
   background-color: var(--backgroundWhite);
   border: 1px solid var(--accent); /* Borda padrão */
-  border-radius: 5px;
-  padding: 10px;
+  border-radius: 8px; /* Bordas mais arredondadas */
+  padding: 20px; /* Aumentando o padding para um layout mais espaçoso */
   flex: 1; /* Permite que os itens cresçam igualmente */
-  min-width: 150px; /* Largura mínima */
+  min-width: 280px; /* Largura mínima para os itens */
+  max-width: 350px; /* Largura máxima para os itens */
   position: relative; /* Para posicionamento da tag de status */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave ao redor */
+  transition: all 0.3s ease; /* Transição suave ao passar o mouse */
+}
+
+.score-item:hover {
+  transform: translateY(-5px); /* Efeito de hover, movendo um pouco para cima */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombra mais intensa ao passar o mouse */
 }
 
 .score-label {
   font-weight: bold; /* Rótulo em negrito */
+  font-size: 1.1em; /* Fonte um pouco maior */
+  margin-bottom: 10px; /* Espaçamento abaixo do título */
+  color: var(--primaryText); /* Cor do texto */
 }
 
 .score-value {
-  font-size: 1.5em; /* Tamanho maior para o valor */
+  font-size: 1.4em; /* Tamanho maior para o valor */
+  color: var(--primaryText);
+  margin-bottom: 15px; /* Espaçamento abaixo do valor */
 }
 
 .score-status {
-  position: absolute; /* Para posicionar a tag */
-  top: 5px;
-  right: 5px;
-  font-size: 1.2em; /* Aumentar o tamanho da seta */
+  font-size: 1.1em; /* Aumentar o tamanho do status */
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+}
+
+.score-status div {
+  margin-bottom: 8px; /* Espaçamento entre as informações de status */
 }
 
 .max-status {
@@ -40,4 +59,37 @@
 
 .ok-status {
   color: green; /* Check para ok em verde */
+  font-size: 1.1em; /* Aumenta o tamanho da fonte */
+}
+
+.error-status {
+  color: red; /* Cor vermelha para status de erro */
+  font-weight: bold;
+  animation: blink 1s infinite; 
+  font-size: 1.1em; /* Aumenta o tamanho da fonte */
+}
+
+@keyframes blink {
+  0%, 50%, 100% {
+    opacity: 1; /* Totalmente visível */
+  }
+  25%, 75% {
+    opacity: 0; /* Invisível */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .scores-container {
+    gap: 15px; /* Menor espaçamento em telas menores */
+    justify-content: center; /* Centraliza os itens em telas menores */
+  }
+
+  .score-item {
+    min-width: 250px; /* Largura mínima em telas pequenas */
+    max-width: 300px; /* Largura máxima em telas pequenas */
+  }
+
+  .score-value {
+    font-size: 1.2em; /* Ajuste no tamanho da fonte para dispositivos móveis */
+  }
 }

@@ -27,7 +27,12 @@ const useSensores = () => {
       }
     };
 
-    fetchSensores(); // Chama a função de busca de dados
+    // Chama fetchSensores imediatamente e depois a cada 10 segundos
+    fetchSensores();
+    const intervalId = setInterval(fetchSensores, 10000);
+
+    // Limpa o intervalo quando o componente é desmontado
+    return () => clearInterval(intervalId);
   }, []); // Array vazio garante que a função só seja chamada ao montar o componente
 
   return { sensores, loading, error }; // Retorna os estados para serem usados nos componentes

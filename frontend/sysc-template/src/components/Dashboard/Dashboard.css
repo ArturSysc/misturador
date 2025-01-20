@@ -1,46 +1,48 @@
 /* src/components/Dashboard/Dashboard.css */
 
+/* Scores section styling */
 .scores {
-  margin: 20px 0 20px 0; /* Margens: topo, direita, inferior, esquerda */
+  margin: 20px 0;
 }
+
+/* Charts section styling */
 .charts {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 10px;
-  margin: 20px 0 20px 0;
+  margin: 20px 0;
+  justify-content: center;
 }
+
+/* Individual chart styling */
 .chart {
   background-color: var(--backgroundWhite);
   max-width: 100%;
   border: 1px solid var(--accent);
   border-radius: 5px;
-  padding: 20px; /* Reduzido para melhorar responsividade */
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Layout para telas médias */
-@media (max-width: 900px) {
-  .charts {
-    grid-template-columns: 1fr 1fr; /* Colunas iguais para telas menores */
-  }
-}
-
-/* Layout para telas pequenas */
-@media (max-width: 768px) {
-  .charts {
-    grid-template-columns: 1fr; /* Uma coluna apenas em telas bem pequenas */
-  }
-}
+/* Full-width chart styling */
 .chart.full {
   grid-column: span 2;
-  margin: 20px 0 20px 0;
+  margin: 10px;
+  width: 100%;
+  height: 100%;
 }
+
+/* Table section styling */
 .table {
   border: 1px solid var(--accent);
   background-color: var(--backgroundWhite);
   border-radius: 5px;
-  margin: 20px 0 20px 0;
+  margin: 20px 0;
 }
 
+/* Alerts section styling */
 .alerts {
   border: 1px solid var(--accent);
   background-color: var(--backgroundWhite);
@@ -49,3 +51,16 @@
   margin: 20px 0 0 0;
 }
 
+/* Responsive layout for medium screens */
+@media (max-width: 900px) {
+  .charts {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Responsive layout for small screens */
+@media (max-width: 768px) {
+  .charts {
+    grid-template-columns: 1fr;
+  }
+}
