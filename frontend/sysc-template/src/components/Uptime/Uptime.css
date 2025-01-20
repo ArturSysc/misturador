@@ -1,0 +1,27 @@
+.uptime-container {
+    background-color: var(--backgroundWhite);
+    border: 1px solid var(--accent); /* Borda padrão */
+    border-radius: 8px; /* Bordas mais arredondadas */
+    padding: 20px; /* Aumentando o padding para um layout mais espaçoso */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave ao redor */
+    transition: all 0.3s ease; /* Transição suave ao passar o mouse */
+    margin-bottom: 20px; /* Espaçamento inferior */
+  }
+  
+  .uptime-container:hover {
+    transform: translateY(-5px); /* Efeito de hover, movendo um pouco para cima */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombra mais intensa ao passar o mouse */
+  }
+  
+  .uptime-title {
+    font-weight: bold; /* Rótulo em negrito */
+    font-size: 1.1em; /* Fonte um pouco maior */
+    margin-bottom: 10px; /* Espaçamento abaixo do título */
+    color: var(--primaryText); /* Cor do texto */
+  }
+  
+  .uptime-value {
+    font-size: 1.4em; /* Tamanho maior para o valor */
+    color: var(--primaryText);
+    margin-bottom: 15px; /* Espaçamento abaixo do valor */
+  }

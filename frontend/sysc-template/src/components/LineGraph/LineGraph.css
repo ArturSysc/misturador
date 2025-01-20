@@ -1,79 +1,87 @@
-/* src/components/LineGraph/LineGraph.css */
-
 .line-graph-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    box-sizing: border-box;
-    position: relative; /* Add relative positioning */
-    overflow: hidden; /* Prevent scrolling outside container */
-  }
-  
-  .form-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Align elements vertically */
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin-right: 10px;
-  }
-  
-  .form-group:last-child {
-    margin-right: 0;
-  }
-  
-  .form-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input,
-  .form-group select {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-  }
-  
-  .chart-container {
-    flex-grow: 1;
-    width: 100%;
-    height: 400px; /* Fixed height for the chart */
-    overflow: hidden; /* Prevent scrolling in the chart container */
-    background-color: #f9f9f9; /* Light background for better contrast */
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-    padding: 10px;
-    position: relative; /* Prevent layout changes during re-renders */
-  }
-  
-  .export-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    margin-right: 20px;
-  }
-  
-  .export-button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Additional adjustment for the chart */
-  .chart-container {
-    overflow: auto; /* Allow scroll within the chart if necessary */
-  }
-  
-  .form-row .form-group select {
-    width: 200px; /* Limit the width of the select for better layout */
-  }
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative; /* Add relative positioning */
+  overflow: hidden; /* Prevent scrolling outside container */
+  background-color: var(--backgroundWhite); /* Fundo branco */
+  border: 1px solid var(--accent); /* Borda padrão */
+  border-radius: 8px; /* Bordas mais arredondadas */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave ao redor */
+  transition: all 0.3s ease; /* Transição suave ao passar o mouse */
+  margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+.line-graph-container:hover {
+  transform: translateY(-5px); /* Efeito de hover, movendo um pouco para cima */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombra mais intensa ao passar o mouse */
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Align elements vertically */
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.form-group:last-child {
+  margin-right: 0;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.chart-container {
+  flex-grow: 1;
+  width: 100%;
+  height: 400px; /* Fixed height for the chart */
+  overflow: hidden; /* Prevent scrolling in the chart container */
+  background-color: #f9f9f9; /* Light background for better contrast */
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 10px;
+  position: relative; /* Prevent layout changes during re-renders */
+}
+
+.export-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  margin-right: 20px;
+}
+
+.export-button:hover {
+  background-color: #0056b3;
+}
+
+/* Additional adjustment for the chart */
+.chart-container {
+  overflow: auto; /* Allow scroll within the chart if necessary */
+}
+
+.form-row .form-group select {
+  width: 200px; /* Limit the width of the select for better layout */
+}

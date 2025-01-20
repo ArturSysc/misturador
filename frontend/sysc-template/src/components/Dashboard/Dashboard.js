@@ -8,6 +8,7 @@ import EmergencyButton from '../EmergencyButton/EmergencyButton';
 import useDashboardData from '../../hooks/useDashboardData'; // Hook para dados do dashboard
 import useWindowSize from '../../hooks/useWindowSize'; // Import do hook para tamanho da tela
 import useSensores from '../../hooks/useSensores'; // Import do hook para sensores
+import Uptime from '../Uptime/Uptime'; // Importando o componente Uptime
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -37,6 +38,10 @@ const Dashboard = () => {
         <div className="chart full">
           <LineGraph />
         </div>
+      </div>
+      {/* Tempo de Atividade */}
+      <div className="uptime">
+        <Uptime />
       </div>
     </Container>
   );

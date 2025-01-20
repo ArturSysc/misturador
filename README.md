@@ -4,13 +4,14 @@ Um template front-end utilizando React e Bootstrap para gerenciamento de sistema
 
 ## Versão
 
-| Versão           | Data       | commit  | Descrição                       |
-| ---------------- | ---------- | ------- | ------------------------------- |
-| 0.2.3 :sparkles: | 2025-01-20 | xxxxxxx | Add pdf button in LineGraph     |
-| 0.2.2 :sparkles: | 2025-01-20 | 8c834bd | Add basic db and api            |
-| 0.2.1 :bug:      | 2025-01-20 | 68f39e3 | Fix scrolling page bug          |
-| 0.2.0 :sparkles: | 2025-01-20 | e957863 | Add backend logic and LineGraph |
-| 0.1.0 :sparkles: | 2024-01-16 | 669f4b1 | Initial commit                  |
+| Versão           | Data       | commit  | Descrição                            |
+| ---------------- | ---------- | ------- | ------------------------------------ |
+| 0.2.4 :sparkles: | 2025-01-20 | xxxxxxx | Add server active time and fix graph |
+| 0.2.3 :sparkles: | 2025-01-20 | 12849c0 | Add pdf button in LineGraph          |
+| 0.2.2 :sparkles: | 2025-01-20 | 8c834bd | Add basic db and api                 |
+| 0.2.1 :bug:      | 2025-01-20 | 68f39e3 | Fix scrolling page bug               |
+| 0.2.0 :sparkles: | 2025-01-20 | e957863 | Add backend logic and LineGraph      |
+| 0.1.0 :sparkles: | 2024-01-16 | 669f4b1 | Initial commit                       |
 
 ## Estrutura do Projeto
 

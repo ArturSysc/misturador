@@ -14,6 +14,7 @@ import {
   Legend,
 } from 'chart.js';
 import jsPDF from 'jspdf';
+import './LineGraph.css';
 
 ChartJS.register(
   CategoryScale,
