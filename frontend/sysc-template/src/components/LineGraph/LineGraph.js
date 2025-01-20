@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Line } from 'react-chartjs-2';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import useGraph from '../../hooks/useGraph';
 import moment from 'moment';
 import {
@@ -60,6 +60,8 @@ const LineGraph = ({ options }) => {
     }
   }, [data, selectedSensor, startDate, endDate]);
 
+  const memoizedChartData = useMemo(() => chartData, [chartData]);
+
   if (loading) return <div>Carregando...</div>;
   if (error) return <div>Erro: {error}</div>;
 
@@ -108,7 +110,7 @@ const LineGraph = ({ options }) => {
         <Col>
           <div className="chart-container">
             <Line 
-              data={chartData} 
+              data={memoizedChartData} 
               options={{
                 ...options,
                 maintainAspectRatio: false,

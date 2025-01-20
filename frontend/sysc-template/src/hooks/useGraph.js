@@ -6,31 +6,47 @@ const useGraph = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let mounted = true;
+
     const fetchData = async () => {
       try {
-        setLoading(true);
         setError(null);
-
         const response = await fetch('http://localhost:7000/sensores');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const result = await response.json();
 
-        setData((prevData) => {
-          return [...prevData, ...result].slice(-50);
-        });
+        if (mounted) {
+          setData((prevData) => {
+            // Only update if data is different
+            const lastItem = result[result.length - 1];
+            const prevLastItem = prevData[prevData.length - 1];
+            
+            if (!prevLastItem || lastItem.timestamp !== prevLastItem.timestamp) {
+              return [...prevData, ...result].slice(-50);
+            }
+            return prevData;
+          });
+        }
       } catch (err) {
-        setError(err.message);
+        if (mounted) {
+          setError(err.message);
+        }
       } finally {
-        setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchData();
     const intervalId = setInterval(fetchData, 3000);
 
-    return () => clearInterval(intervalId);
+    return () => {
+      mounted = false;
+      clearInterval(intervalId);
+    };
   }, []);
 
   return { data, loading, error };
