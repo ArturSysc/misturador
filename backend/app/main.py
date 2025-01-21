@@ -3,13 +3,26 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from . import crud, models, schemas
 from .database import SessionLocal, engine
-from datetime import datetime, timedelta
+from datetime import datetime
 import random
+from contextlib import asynccontextmanager
 
 # Criar as tabelas no início para evitar importação circular
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    db = next(get_db())
+    crud.register_server_start_time(db)
+    yield
+    try:
+        crud.register_server_end_time(db)
+    except Exception as e:
+        print(f"Error during shutdown event: {e}")
+    finally:
+        db.close()
+
+app = FastAPI(lifespan=lifespan)
 
 # Configuração do CORS
 origins = [
@@ -33,44 +46,6 @@ def get_db():
     finally:
         db.close()
 
-# Função para registrar o tempo de início do servidor
-def register_server_start_time(db: Session):
-    server_activity = models.ServerActivity(start_time=datetime.utcnow())
-    db.add(server_activity)
-    db.commit()
-    db.refresh(server_activity)
-    return server_activity.start_time
-
-# Função para registrar o tempo de fim do servidor
-def register_server_end_time(db: Session):
-    server_activity = db.query(models.ServerActivity).filter(models.ServerActivity.end_time == None).first()
-    if server_activity:
-        server_activity.end_time = datetime.utcnow()
-        db.commit()
-        db.refresh(server_activity)
-
-# Função para calcular o tempo total de atividade do servidor
-def calculate_total_uptime(db: Session):
-    server_activities = db.query(models.ServerActivity).all()
-    total_uptime = timedelta()
-    for activity in server_activities:
-        if activity.end_time:
-            total_uptime += activity.end_time - activity.start_time
-        else:
-            total_uptime += datetime.utcnow() - activity.start_time
-    return total_uptime
-
-@app.on_event("startup")
-def startup_event():
-    db = next(get_db())
-    register_server_start_time(db)
-
-@app.on_event("shutdown")
-def shutdown_event():
-    db = next(get_db())
-    register_server_end_time(db)
-    db.close()
-
 @app.post("/sensor_data/", response_model=schemas.SensorData)
 def create_sensor_data(sensor_data: schemas.SensorDataCreate, db: Session = Depends(get_db)):
     return crud.create_sensor_data(db=db, sensor_data=sensor_data)
@@ -86,8 +61,8 @@ def server_time():
 
 @app.get("/uptime/")
 def get_uptime(db: Session = Depends(get_db)):
-    total_uptime = calculate_total_uptime(db)
-    return {"uptime": str(total_uptime)}
+    total_uptime = crud.calculate_total_uptime(db)
+    return {"uptime": total_uptime}
 
 # Adicionar endpoint /sensores
 @app.get("/sensores")

@@ -11,3 +11,6 @@ backend/venv/
 
 # Ignorar o node_modules
 frontend/sysc-template/node_modules/*
+
+# Ignorar o banco de dados de teste
+backend/test.db

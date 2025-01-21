@@ -6,7 +6,8 @@ Um template front-end utilizando React e Bootstrap para gerenciamento de sistema
 
 | Versão           | Data       | commit  | Descrição                            |
 | ---------------- | ---------- | ------- | ------------------------------------ |
-| 0.2.4 :sparkles: | 2025-01-20 | xxxxxxx | Add server active time and fix graph |
+| 0.2.5 :bug:      | 2025-01-21 | xxxxxxx | Fix bug in server time               |
+| 0.2.4 :sparkles: | 2025-01-20 | 9a13470 | Add server active time and fix graph |
 | 0.2.3 :sparkles: | 2025-01-20 | 12849c0 | Add pdf button in LineGraph          |
 | 0.2.2 :sparkles: | 2025-01-20 | 8c834bd | Add basic db and api                 |
 | 0.2.1 :bug:      | 2025-01-20 | 68f39e3 | Fix scrolling page bug               |
