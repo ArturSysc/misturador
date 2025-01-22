@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <div>
+      <div className='emergency-button-container'>
         <EmergencyButton />
       </div>
       {/* Scores */}

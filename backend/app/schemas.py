@@ -1,12 +1,11 @@
 from pydantic import BaseModel
 from datetime import datetime
 
+
 class SensorDataBase(BaseModel):
-    emergency_status: bool
-    agua: bool
-    valvula_vapor_percentage: float
-    valvula_agua_percentage: float
     temperatura_celsius: float
+    valvula_agua_percentage: int
+    valvula_vapor_percentage: int
 
 class SensorDataCreate(SensorDataBase):
     pass

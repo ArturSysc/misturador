@@ -1,0 +1,13 @@
+.emergency-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .emergency-button:hover {
+    background-color: darkred;
+  }

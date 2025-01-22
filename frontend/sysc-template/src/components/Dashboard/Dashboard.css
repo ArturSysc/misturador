@@ -13,3 +13,11 @@
 .uptime {
   margin-bottom: 20px;
 }
+
+/* Centralizar o contêiner do botão de emergência */
+.emergency-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
