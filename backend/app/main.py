@@ -1,28 +1,18 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
-from . import crud, models, schemas
-from .database import SessionLocal, engine
+from . import schemas
 from datetime import datetime
 import random
-from contextlib import asynccontextmanager
+import logging
 
-# Criar as tabelas no início para evitar importação circular
-models.Base.metadata.create_all(bind=engine)
+# Configuração de logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    db = next(get_db())
-    crud.register_server_start_time(db)
-    yield
-    try:
-        crud.register_server_end_time(db)
-    except Exception as e:
-        print(f"Error during shutdown event: {e}")
-    finally:
-        db.close()
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 # Configuração do CORS
 origins = [
@@ -39,33 +29,56 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+sensor_data_list = []
+MAX_ITEMS = 2  # Limite de 100 registros
 
+# Endpoint para receber dados Modbus diretamente
 @app.post("/sensor_data/", response_model=schemas.SensorData)
-def create_sensor_data(sensor_data: schemas.SensorDataCreate, db: Session = Depends(get_db)):
-    return crud.create_sensor_data(db=db, sensor_data=sensor_data)
+def receive_sensor_data(sensor_data: schemas.SensorDataCreate):
+    try:
+        unit_id = sensor_data.unit_id
+        values = sensor_data.values
+        if len(sensor_data_list) >= MAX_ITEMS:
+            sensor_data_list.pop(0)  # Remove o item mais antigo
+        sensor_data_list.append({"unit_id": unit_id, "values": values})
+        logger.info(f"Dados recebidos: {values} do Unit ID: {unit_id}")
+        return schemas.SensorData(
+            id=len(sensor_data_list),
+            unit_id=unit_id,
+            values=values,
+            timestamp=datetime.utcnow()
+        )
+    except Exception as e:
+        logger.error(f"Erro ao processar dados: {str(e)}")
+        raise HTTPException(status_code=500, detail="Erro ao processar dados.")
 
+# Endpoint para listar dados de sensores (sem banco de dados)
 @app.get("/sensor_data/", response_model=list[schemas.SensorData])
-def read_sensor_data(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    sensor_data = crud.get_sensor_data(db, skip=skip, limit=limit)
-    return sensor_data
+def read_sensor_data(skip: int = 0, limit: int = 10):
+    return [
+        schemas.SensorData(
+            id=i + 1,
+            unit_id=data["unit_id"],
+            values=data["values"],
+            timestamp=datetime.utcnow()
+        )
+        for i, data in enumerate(sensor_data_list[skip:skip + limit])
+    ]
 
+# Endpoint para retornar o tempo do servidor
 @app.get("/server_time/")
 def server_time():
     return {"server_time": datetime.utcnow()}
 
+# Endpoint para cálculo de uptime com banco de dados
 @app.get("/uptime/")
-def get_uptime(db: Session = Depends(get_db)):
-    total_uptime = crud.calculate_total_uptime(db)
+def get_uptime():
+    # Simulação de tempo de atividade
+    total_uptime = "Simulated uptime"
     return {"uptime": total_uptime}
 
-# Adicionar endpoint /sensores
-@app.get("/sensores")
+# Endpoint para simular sensores (mantido)
+@app.get("/sensores/")
 def get_sensores():
     # Simular dados de sensores
     sensores = [

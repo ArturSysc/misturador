@@ -3,9 +3,8 @@ from datetime import datetime
 
 
 class SensorDataBase(BaseModel):
-    temperatura_celsius: float
-    valvula_agua_percentage: int
-    valvula_vapor_percentage: int
+    unit_id:int 
+    values: list[int]  
 
 class SensorDataCreate(SensorDataBase):
     pass
