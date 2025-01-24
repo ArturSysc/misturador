@@ -1,5 +1,5 @@
 import logging
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 from pymodbus.exceptions import ModbusIOException, ConnectionException
 import time
 

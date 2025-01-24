@@ -6,7 +6,8 @@ Um template front-end utilizando React e Bootstrap para gerenciamento de sistema
 
 | Versão           | Data       | commit  | Descrição                            |
 | ---------------- | ---------- | ------- | ------------------------------------ |
-| 0.2.6 :sparkles: | 2025-01-22 | xxxxxxx | Add modbus and update api sensorData |
+| 0.2.8 :sparkles: | 2025-01-24 | xxxxxxx | Update api with new schema mapped    |
+| 0.2.7 :sparkles: | 2025-01-24 | 5d6592f | Add modbus and update api sensorData |
 | 0.2.6 :sparkles: | 2025-01-22 | 8997009 | Add hexa handling in the backend     |
 | 0.2.5 :bug:      | 2025-01-21 | 2918d8c | Fix bug in server time               |
 | 0.2.4 :sparkles: | 2025-01-20 | 9a13470 | Add server active time and fix graph |

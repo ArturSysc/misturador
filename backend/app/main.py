@@ -30,7 +30,7 @@ app.add_middleware(
 )
 
 sensor_data_list = []
-MAX_ITEMS = 2  # Limite de 100 registros
+MAX_ITEMS = 1  # Limite de 1 registro
 
 # Endpoint para receber dados Modbus diretamente
 @app.post("/sensor_data/", response_model=schemas.SensorData)
@@ -45,6 +45,13 @@ def receive_sensor_data(sensor_data: schemas.SensorDataCreate):
         return schemas.SensorData(
             id=len(sensor_data_list),
             unit_id=unit_id,
+            temp_atual=sensor_data.temp_atual,
+            temp_aquece=sensor_data.temp_aquece,
+            temp_resfria=sensor_data.temp_resfria,
+            minutos_emulsa=sensor_data.minutos_emulsa,
+            minutos_homogeiniza=sensor_data.minutos_homogeiniza,
+            percent_agua=sensor_data.percent_agua,
+            percent_vapor=sensor_data.percent_vapor,
             values=values,
             timestamp=datetime.utcnow()
         )
@@ -59,11 +66,28 @@ def read_sensor_data(skip: int = 0, limit: int = 10):
         schemas.SensorData(
             id=i + 1,
             unit_id=data["unit_id"],
+            temp_atual=data["values"][0],
+            temp_aquece=data["values"][1],
+            temp_resfria=data["values"][2],
+            minutos_emulsa=data["values"][3],
+            minutos_homogeiniza=data["values"][4],
+            percent_agua=data["values"][5],
+            percent_vapor=data["values"][6],
             values=data["values"],
             timestamp=datetime.utcnow()
         )
         for i, data in enumerate(sensor_data_list[skip:skip + limit])
     ]
+
+# Endpoint para receber dados de processo
+@app.post("/process_data/", response_model=schemas.ProcessData)
+def receive_process_data(process_data: schemas.ProcessData):
+    try:
+        logger.info(f"Process Data received: {process_data}")
+        return process_data
+    except Exception as e:
+        logger.error(f"Erro ao processar dados de processo: {str(e)}")
+        raise HTTPException(status_code=500, detail="Erro ao processar dados de processo.")
 
 # Endpoint para retornar o tempo do servidor
 @app.get("/server_time/")
