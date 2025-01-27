@@ -1,40 +1,52 @@
-import logging
 from pymodbus.client import ModbusTcpClient
-from pymodbus.exceptions import ModbusIOException, ConnectionException
+import logging
+import os
 import time
 
-logging.basicConfig(
-    level=logging.DEBUG, 
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+# Configuração de logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-client = ModbusTcpClient(host="192.168.0.254", port=8899, timeout=3)
+# Configuração do cliente Modbus
+MODBUS_HOST = "192.168.0.254"  # IP do CLP
+MODBUS_PORT = 8899  # Porta do CLP
+client = ModbusTcpClient(host=MODBUS_HOST, port=MODBUS_PORT, timeout=3)
 
 def connect_to_modbus():
-    """Conecta ao servidor Modbus."""
+    """Tenta conectar ao CLP via Modbus."""
     if client.connect():
-        logger.info("Conectado com sucesso!")
+        logger.info("✅ Conectado ao CLP com sucesso!")
         return True
     else:
-        logger.error("Falha na conexão!")
+        logger.error("❌ Falha ao conectar ao CLP.")
         return False
 
-def write_holding_registers(address, values):
-    """Escreve dados nos registradores de retenção (holding registers)."""
+def send_custom_packet(packet_hex):
+    """Envia um pacote Modbus personalizado para o CLP."""
     if not client.is_socket_open():
-        logger.warning("Não conectado, tentando conectar!")
+        logger.warning("⚠️ Conexão perdida. Tentando reconectar...")
         if not connect_to_modbus():
-            time.sleep(5)
-            return None
+            return
 
-    logger.info("Conexão Modbus ativa")
-    logger.debug(f"Escrevendo registros - Endereço: {hex(address)}, Valores: {values}")
-    result = client.write_registers(address, values)
+    try:
+        # Pacote hexadecimal a ser enviado
+        packet = bytes.fromhex(packet_hex)
 
-    if result.isError():
-        logger.error(f"Erro na escrita: {result}")
-        return None
-    else:
-        logger.info(f"Escrita bem-sucedida: {result}")
-        return result
+        # Enviar o pacote personalizado
+        logger.info(f"Enviando pacote personalizado: {packet.hex()}")
+        client.socket.send(packet)
+
+        # Ler a resposta
+        response = client.socket.recv(1024)
+        logger.info(f"Resposta recebida: {response.hex()}")
+
+    except Exception as e:
+        logger.error(f"❌ Erro ao enviar pacote: {str(e)}")
+
+if __name__ == "__main__":
+    if connect_to_modbus():
+        while True:
+            send_custom_packet("000000000008010F000800020100")
+            time.sleep(5)  # Esperar 5 segundos antes de enviar o próximo pacote
+            send_custom_packet("00000000000B01030800BA00BB00BC00BD")
+            time.sleep(5)  # Repetir a cada 5 segundos (ajuste conforme necessário)
