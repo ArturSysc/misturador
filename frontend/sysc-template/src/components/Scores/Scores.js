@@ -1,7 +1,7 @@
-// src/components/Scores.js
 import React from 'react';
-import './Scores.css';
+import { Alert } from 'react-bootstrap';
 import useSensores from '../../hooks/useSensores'; // Import do hook para sensores
+import './Scores.css'; // Importa o arquivo CSS para estilos personalizados
 
 const Scores = () => {
   const { sensores } = useSensores(); // Usando o hook useSensores, agora retornando o objeto e acessando a chave sensores
@@ -9,7 +9,7 @@ const Scores = () => {
 
   // Verifica se sensores é um array e tem dados
   if (!Array.isArray(sensores) || sensores.length === 0) {
-    return <div>Não há dados disponíveis.</div>; // Exibe mensagem caso não haja dados
+    return <Alert variant="warning">Não há dados disponíveis.</Alert>; // Exibe mensagem caso não haja dados
   }
 
   return (
@@ -18,26 +18,17 @@ const Scores = () => {
         <div key={index} className="score-item">
           <div className="score-label">
             {/* Exibe o nome do sensor ou identificador */}
-            Sensor {sensor.modbus_id}
+            Sensor {sensor.unit_id}
           </div>
           <div className="score-value">
-            {/* Exibe o valor da temperatura */}
-            Temperatura: {sensor.temperatura_celsius} °C
-          </div>
-          <div className="score-status">
-            {/* Exibe o status do sensor Água */}
-            {sensor.agua ? (
-              <span className="ok-status">Água OK</span>
-            ) : (
-              <span className="error-status">Água NÃO OK</span>
-            )}
-            {/* Exibe as válvulas de vapor e água */}
-            <div>
-              Válvula de Vapor: {sensor.valvula_vapor_percentage}%
-            </div>
-            <div>
-              Válvula de Água: {sensor.valvula_agua_percentage}%
-            </div>
+            {/* Exibe os valores dos sensores */}
+            <div>Temp Atual: {sensor.temp_atual} °C</div>
+            <div>Temp Aquece: {sensor.temp_aquece} °C</div>
+            <div>Temp Resfria: {sensor.temp_resfria} °C</div>
+            <div>Minutos Emulsa: {sensor.minutos_emulsa} min</div>
+            <div>Minutos Homogeiniza: {sensor.minutos_homogeiniza} min</div>
+            <div>Percent Água: {sensor.percent_agua} %</div>
+            <div>Percent Vapor: {sensor.percent_vapor} %</div>
           </div>
         </div>
       ))}

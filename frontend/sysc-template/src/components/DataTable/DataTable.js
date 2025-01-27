@@ -1,4 +1,3 @@
-// src/components/DataTable.js
 import React from 'react';
 import './DataTable.css'; // Importa o arquivo CSS para estilos personalizados
 
@@ -7,8 +6,19 @@ const DataTable = ({ data }) => {
     return <div>Nenhum dado disponível.</div>; // Mensagem para caso não haja dados
   }
 
-  // Obtém as chaves do primeiro objeto para usar como cabeçalho da tabela
-  const headers = Object.keys(data[0]);
+  // Mapeia os nomes das colunas para títulos mais descritivos
+  const columnTitles = {
+    temp_atual: 'Temperatura Atual (°C)',
+    temp_aquece: 'Temperatura Aquecimento (°C)',
+    temp_resfria: 'Temperatura Resfriamento (°C)',
+    minutos_emulsa: 'Minutos Emulsão',
+    minutos_homogeiniza: 'Minutos Homogeinização',
+    percent_agua: 'Porcentagem Água (%)',
+    percent_vapor: 'Porcentagem Vapor (%)'
+  };
+
+  // Obtém as chaves do primeiro objeto para usar como cabeçalho da tabela, excluindo o unit_id
+  const headers = Object.keys(data[0]).filter(header => header !== 'unit_id');
 
   return (
     <div className="table-container">
@@ -16,7 +26,7 @@ const DataTable = ({ data }) => {
         <thead>
           <tr>
             {headers.map((header) => (
-              <th key={header}>{header}</th> // Cabeçalho da tabela
+              <th key={header}>{columnTitles[header]}</th> // Cabeçalho da tabela com títulos descritivos
             ))}
           </tr>
         </thead>

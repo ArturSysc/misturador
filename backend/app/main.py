@@ -79,15 +79,29 @@ def read_sensor_data(skip: int = 0, limit: int = 10):
         for i, data in enumerate(sensor_data_list[skip:skip + limit])
     ]
 
+# Variável global para armazenar os dados de processo
+process_data_store = []
+
 # Endpoint para receber dados de processo
 @app.post("/process_data/", response_model=schemas.ProcessData)
 def receive_process_data(process_data: schemas.ProcessData):
     try:
         logger.info(f"Process Data received: {process_data}")
+        # Converter o objeto Pydantic para um dicionário antes de armazenar
+        process_data_store.append(process_data.dict())
         return process_data
     except Exception as e:
         logger.error(f"Erro ao processar dados de processo: {str(e)}")
         raise HTTPException(status_code=500, detail="Erro ao processar dados de processo.")
+
+@app.get("/process_data/", response_model=list[schemas.ProcessData])
+def get_process_data(skip: int = 0, limit: int = 1):
+    try:
+        # Reconstrua os objetos Pydantic a partir dos dicionários
+        return [schemas.ProcessData(**data) for data in process_data_store[skip:skip + limit]]
+    except Exception as e:
+        logger.error(f"Erro ao obter dados de processo: {str(e)}")
+        raise HTTPException(status_code=500, detail="Erro ao obter dados de processo.")
 
 # Endpoint para retornar o tempo do servidor
 @app.get("/server_time/")
@@ -107,35 +121,17 @@ def get_sensores():
     # Simular dados de sensores
     sensores = [
         {
-            "modbus_id": 1,
-            "emergency_status": random.choice([True, False]),
-            "agua": random.choice([True, False]),
-            "valvula_vapor_percentage": round(random.uniform(0, 100), 2),
-            "valvula_agua_percentage": round(random.uniform(0, 100), 2),
-            "temperatura_celsius": round(random.uniform(20, 80), 2),
-            "timestamp": datetime.now().isoformat()
-        },
-        {
-            "modbus_id": 2,
-            "emergency_status": random.choice([True, False]),
-            "agua": random.choice([True, False]),
-            "valvula_vapor_percentage": round(random.uniform(0, 100), 2),
-            "valvula_agua_percentage": round(random.uniform(0, 100), 2),
-            "temperatura_celsius": round(random.uniform(20, 80), 2),
-            "timestamp": datetime.now().isoformat()
-        },
-        {
-            "modbus_id": 3,
-            "emergency_status": random.choice([True, False]),
-            "agua": random.choice([True, False]),
-            "valvula_vapor_percentage": round(random.uniform(0, 100), 2),
-            "valvula_agua_percentage": round(random.uniform(0, 100), 2),
-            "temperatura_celsius": round(random.uniform(20, 80), 2),
-            "timestamp": datetime.now().isoformat()
+            "temp_atual": round(random.uniform(20, 80), 2),
+            "temp_aquece": round(random.uniform(50, 80), 2),
+            "temp_resfria": round(random.uniform(10, 30), 2),
+            "minutos_emulsa": random.randint(5, 60),
+            "minutos_homogeiniza": random.randint(5, 60),
+            "percent_agua": round(random.uniform(0, 100), 2),
+            "percent_vapor": round(random.uniform(0, 100), 2),
+            "timestamp": datetime.utcnow()
         }
     ]
     return sensores
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=7000)

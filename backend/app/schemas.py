@@ -21,17 +21,15 @@ class SensorData(SensorDataBase):
 
     class Config:
         orm_mode = True
+class ProcessStatus(BaseModel):
+    inicio: bool
+    fim: bool
 
 class ProcessData(BaseModel):
-    ht: int
-    ho: int
-    ct: int
-    ci: int
-    et: int
-    ei: int
-    at: int
-    ai: int
+    homogeneizacao: ProcessStatus
+    resfriamento: ProcessStatus
+    emulsao: ProcessStatus
+    aquecimento: ProcessStatus
     timestamp: datetime
-
     class Config:
         orm_mode = True

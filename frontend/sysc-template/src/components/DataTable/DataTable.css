@@ -1,35 +1,41 @@
-/* src/components/DataTable.css */
 .table-container {
-  overflow: hidden; /* Garante que as bordas arredondadas sejam respeitadas */
+  overflow-x: auto; /* Permite rolagem horizontal se necessário */
   border-radius: 0.5rem; /* Arredonda as bordas da tabela */
-}
-.custom-table tbody, td, tfoot, th, thead, tr {
-  border: none; /* Remove bordas das células */
+  background-color: #ffffff; /* Fundo branco para a tabela */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave ao redor */
+  margin: 20px 0; /* Espaçamento acima e abaixo da tabela */
+  padding: 1rem; /* Adiciona espaçamento interno */
 }
 
 .custom-table {
   width: 100%; /* Largura da tabela */
   border-collapse: collapse; /* Remove espaços entre as células */
   text-align: center; /* Centraliza todo o texto na tabela */
+  background-color: #ffffff; /* Fundo branco para a tabela */
+  border-radius: 0.5rem; /* Arredonda as bordas da tabela */
+  overflow: hidden; /* Garante que o arredondamento das bordas funcione */
 }
 
 .custom-table th {
   text-transform: uppercase; /* Transforma o texto em maiúsculas */
   font-weight: bold; /* Deixa o texto em negrito */
-  color: var(--terciary); /* Cor do texto do cabeçalho */
+  color: #343a40; /* Cor do texto do cabeçalho */
   padding: 0.75rem; /* Espaçamento interno para as células do cabeçalho */
+  background-color: #f8f9fa; /* Fundo cinza claro para o cabeçalho */
+  border-bottom: 2px solid #dee2e6; /* Linha abaixo das células do cabeçalho */
 }
 
 .custom-table td {
   padding: 0.75rem; /* Espaçamento interno para as células */
-  border-top: 1px solid #ddd; /* Linha acima das células */
+  border-top: 1px solid #dee2e6; /* Linha acima das células */
+  color: #495057; /* Cor do texto das células */
 }
 
 /* Estilo específico para a primeira coluna */
 .custom-table td:first-child {
   font-weight: bold; /* Deixa o texto da primeira coluna em negrito */
-  border-color: var(--terciary);
-  color: var(--terciary);
+  border-color: #343a40; /* Cor da borda */
+  color: #343a40; /* Cor do texto */
 }
 
 .custom-table tr:nth-child(even) {
@@ -37,5 +43,17 @@
 }
 
 .custom-table tr:hover {
-  background-color: #f1f1f1; /* Cor de fundo ao passar o mouse sobre a linha */
+  background-color: #e9ecef; /* Cor de fundo ao passar o mouse sobre a linha */
+  transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+  .table-container {
+    overflow-x: auto; /* Permite rolagem horizontal em telas menores */
+  }
+
+  .custom-table th, .custom-table td {
+    padding: 0.5rem; /* Reduz o espaçamento interno em telas menores */
+  }
 }

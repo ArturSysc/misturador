@@ -45,8 +45,8 @@ def send_custom_packet(packet_hex):
 
 if __name__ == "__main__":
     if connect_to_modbus():
-        while True:
+        # while True:
             send_custom_packet("000000000008010F000800020100")
             time.sleep(5)  # Esperar 5 segundos antes de enviar o próximo pacote
-            send_custom_packet("00000000000B01030800BA00BB00BC00BD")
+            send_custom_packet("00000000000B2A030800BA00BB00BC00BD")
             time.sleep(5)  # Repetir a cada 5 segundos (ajuste conforme necessário)

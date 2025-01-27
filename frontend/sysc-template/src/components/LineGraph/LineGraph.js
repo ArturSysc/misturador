@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import useGraph from '../../hooks/useGraph';
 import moment from 'moment';
 import {
@@ -28,29 +28,30 @@ ChartJS.register(
 
 const LineGraph = ({ options }) => {
   const { data, loading, error } = useGraph();
-  const [selectedSensor, setSelectedSensor] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [chartData, setChartData] = useState({ labels: [], datasets: [], ids: [] });
+  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
-  // Process data for chart
-  useEffect(() => {
-    if (data.length > 0 && selectedSensor) {
+  // Função para processar dados e atualizar o gráfico
+  const updateChartData = () => {
+    if (data.length > 0) {
+      console.log("Dados recebidos:", data); // Log dos dados recebidos
+
       const filteredData = data.filter((item) => {
         const date = new Date(item.timestamp);
         return (
-          item.modbus_id === parseInt(selectedSensor) &&
           (!startDate || date >= new Date(startDate)) &&
           (!endDate || date <= new Date(endDate))
         );
       });
 
+      console.log("Dados filtrados:", filteredData); // Log dos dados filtrados
+
       const timestamps = filteredData.map(item => item.timestamp);
-      const temperatures = filteredData.map(item => item.temperatura_celsius);
-      const ids = filteredData.map(item => item.modbus_id);
+      const temperatures = filteredData.map(item => item.temp_atual);
       const formattedTimestamps = timestamps.map(t => moment(t).format('DD/MM HH:mm'));
 
-      setChartData({
+      const newChartData = {
         labels: formattedTimestamps,
         datasets: [{
           label: 'Temperatura ao longo do tempo',
@@ -58,20 +59,31 @@ const LineGraph = ({ options }) => {
           fill: false,
           borderColor: 'rgba(75,192,192,1)',
           tension: 0.1
-        }],
-        ids: ids,  // Adicionando os IDs ao chartData
-      });
+        }]
+      };
+
+      setChartData(newChartData);
+
+      console.log("Dados para gráfico:", newChartData); // Exibe os dados que estão sendo passados para o gráfico
     }
-  }, [data, selectedSensor, startDate, endDate]);
+  };
 
-  const memoizedChartData = useMemo(() => chartData, [chartData]);
+  // Atualizar gráfico sempre que os dados ou filtros mudarem
+  useEffect(() => {
+    console.log("Dados ou filtros mudaram, atualizando gráfico...");
+    updateChartData();
 
-  if (loading) return <div>Carregando...</div>;
-  if (error) return <div>Erro: {error}</div>;
+    const interval = setInterval(() => {
+      console.log("Atualizando gráfico a cada 30 segundos...");
+      updateChartData();
+    }, 30000); // 30 segundos
 
-  const sensorOptions = [...new Set(data.map(item => item.modbus_id))];
+    // Limpar o intervalo quando o componente for desmontado
+    return () => clearInterval(interval);
+  }, [data, startDate, endDate]); // Atualizar se `data`, `startDate` ou `endDate` mudarem
 
   const exportPDF = () => {
+    console.log("Exportando para PDF...");
     const doc = new jsPDF();
     let y = 10; // Posição vertical inicial
     const lineHeight = 10; // Altura de cada linha
@@ -82,7 +94,7 @@ const LineGraph = ({ options }) => {
     y += lineHeight; // Incrementar a posição vertical
 
     // Usar o chartData para garantir que os dados são consistentes
-    const { labels, datasets, ids } = chartData;
+    const { labels, datasets } = chartData;
     if (datasets.length > 0) {
       const dataPoints = datasets[0].data;
 
@@ -92,8 +104,6 @@ const LineGraph = ({ options }) => {
           y = 10; // Reiniciar a posição vertical na nova página
         }
 
-        doc.text(`ID: ${ids[index]}`, 10, y); // Exibir o ID
-        y += lineHeight;
         doc.text(`Data: ${label}`, 10, y);
         y += lineHeight;
         doc.text(`Temperatura: ${dataPoints[index]} °C`, 10, y);
@@ -105,25 +115,13 @@ const LineGraph = ({ options }) => {
     doc.save('dados_sensores.pdf');
   };
 
+  if (loading) return <div>Carregando...</div>;
+  if (error) return <Alert variant="danger">Erro: {error}</Alert>;
+
   return (
     <Container fluid className="line-graph-container">
       <Row className="mb-3">
-        <Col md={4}>
-          <Form.Group>
-            <Form.Label>Selecionar Sensor</Form.Label>
-            <Form.Control
-              as="select"
-              value={selectedSensor}
-              onChange={(e) => setSelectedSensor(e.target.value)}
-            >
-              <option value="">Selecione um sensor</option>
-              {sensorOptions.map(sensor => (
-                <option key={sensor} value={sensor}>{sensor}</option>
-              ))}
-            </Form.Control>
-          </Form.Group>
-        </Col>
-        <Col md={4}>
+        <Col md={6}>
           <Form.Group>
             <Form.Label>Data de Início</Form.Label>
             <Form.Control
@@ -133,7 +131,7 @@ const LineGraph = ({ options }) => {
             />
           </Form.Group>
         </Col>
-        <Col md={4}>
+        <Col md={6}>
           <Form.Group>
             <Form.Label>Data de Fim</Form.Label>
             <Form.Control
@@ -148,7 +146,7 @@ const LineGraph = ({ options }) => {
         <Col>
           <div className="chart-container">
             <Line
-              data={memoizedChartData}
+              data={chartData}
               options={{
                 ...options,
                 maintainAspectRatio: false,
